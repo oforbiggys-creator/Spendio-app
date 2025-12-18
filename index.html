@@ -2,65 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spendio</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
 
-<div id="app">
-
-  <!-- AUTH -->
-  <section id="auth" class="screen active">
-    <h1 class="logo">Spendio</h1>
+  <!-- LOGIN -->
+  <div class="card" id="loginScreen">
+    <h1 class="brand">Spendio</h1>
     <p class="tagline">Smart finance for Africa</p>
-
-    <form onsubmit="login(event)">
-      <input type="text" id="name" placeholder="Your name" required />
-      <button type="submit">Continue</button>
-    </form>
-  </section>
+    <input type="text" id="usernameInput" placeholder="Your name" />
+    <button onclick="login()">Continue</button>
+  </div>
 
   <!-- DASHBOARD -->
-  <section id="dashboard" class="screen">
-    <header class="dash-header">
-      <h2 id="welcome"></h2>
+  <div class="card hidden" id="dashboard">
+    <div class="top">
+      <h2 id="welcomeText"></h2>
       <button class="logout" onclick="logout()">Logout</button>
-    </header>
+    </div>
 
-    <div class="wallet">
+    <div class="balance">
       <p>Wallet Balance</p>
-      <h1>₦<span id="balance">25000</span></h1>
+      <h1 id="balance">₦0</h1>
     </div>
 
-    <div class="actions">
-      <button onclick="openSend()">Send Money</button>
-      <button class="outline" onclick="openReceive()">Receive Money</button>
-    </div>
+    <button onclick="openSend()">Send Money</button>
+    <button class="outline" onclick="openReceive()">Receive Money</button>
 
-    <h3 class="section-title">Transactions</h3>
+    <h3>Transactions</h3>
     <ul id="transactions"></ul>
-  </section>
+  </div>
 
   <!-- SEND -->
-  <section id="send" class="screen">
+  <div class="card hidden" id="sendScreen">
     <h2>Send Money</h2>
     <input type="number" id="sendAmount" placeholder="Amount (₦)" />
-    <input type="text" placeholder="Recipient name" />
+    <input type="text" id="recipient" placeholder="Recipient name" />
     <button onclick="sendMoney()">Send</button>
-    <button class="back" onclick="show('dashboard')">Back</button>
-  </section>
+    <button class="outline" onclick="goBack()">Back</button>
+  </div>
 
   <!-- RECEIVE -->
-  <section id="receive" class="screen">
+  <div class="card hidden" id="receiveScreen">
     <h2>Receive Money</h2>
     <input type="number" id="receiveAmount" placeholder="Amount (₦)" />
     <button onclick="receiveMoney()">Confirm</button>
-    <button class="back" onclick="show('dashboard')">Back</button>
-  </section>
+    <button class="outline" onclick="goBack()">Back</button>
+  </div>
 
-</div>
-
-<script src="script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
