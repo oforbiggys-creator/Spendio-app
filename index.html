@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spendio – Dashboard</title>
+  <title>Spendio</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
 <div id="app">
 
-  <!-- AUTH SCREEN -->
+  <!-- AUTH -->
   <section id="auth" class="screen active">
     <h1 class="logo">Spendio</h1>
     <p class="tagline">Smart finance for Africa</p>
 
     <form onsubmit="login(event)">
       <input type="text" id="name" placeholder="Your name" required />
-      <button type="submit">Enter Dashboard</button>
+      <button type="submit">Continue</button>
     </form>
   </section>
 
@@ -30,15 +30,33 @@
 
     <div class="wallet">
       <p>Wallet Balance</p>
-      <h1>₦<span id="balance">25,000</span></h1>
+      <h1>₦<span id="balance">25000</span></h1>
     </div>
 
     <div class="actions">
-      <button onclick="alert('Send flow coming next')">Send Money</button>
-      <button class="outline" onclick="alert('Receive flow coming next')">
-        Receive Money
-      </button>
+      <button onclick="openSend()">Send Money</button>
+      <button class="outline" onclick="openReceive()">Receive Money</button>
     </div>
+
+    <h3 class="section-title">Transactions</h3>
+    <ul id="transactions"></ul>
+  </section>
+
+  <!-- SEND -->
+  <section id="send" class="screen">
+    <h2>Send Money</h2>
+    <input type="number" id="sendAmount" placeholder="Amount (₦)" />
+    <input type="text" placeholder="Recipient name" />
+    <button onclick="sendMoney()">Send</button>
+    <button class="back" onclick="show('dashboard')">Back</button>
+  </section>
+
+  <!-- RECEIVE -->
+  <section id="receive" class="screen">
+    <h2>Receive Money</h2>
+    <input type="number" id="receiveAmount" placeholder="Amount (₦)" />
+    <button onclick="receiveMoney()">Confirm</button>
+    <button class="back" onclick="show('dashboard')">Back</button>
   </section>
 
 </div>
