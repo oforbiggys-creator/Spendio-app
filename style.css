@@ -1,3 +1,19 @@
+/* =========================
+   SPENDIO – MINIMAL FINTECH UI
+   ========================= */
+
+:root {
+  --primary: #00c4cc;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --danger: #ef4444;
+  --success: #10b981;
+  --border: #e5e7eb;
+}
+
+/* RESET */
 * {
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -5,54 +21,37 @@
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, #001f2d, #00384d);
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.container {
-  padding: 20px;
-  max-width: 480px;
+/* APP */
+.app {
+  max-width: 420px;
   margin: auto;
+  min-height: 100vh;
+  padding: 16px;
 }
 
-h1, h2, h3 {
-  margin: 10px 0;
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  margin-bottom: 15px;
-  font-size: 16px;
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: var(--primary);
 }
 
-button {
-  width: 100%;
-  padding: 15px;
-  border-radius: 14px;
-  border: none;
-  background: #00e5ff;
-  color: #002b36;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  cursor: pointer;
+.header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
 }
 
-button.secondary {
-  background: transparent;
-  border: 2px solid #00e5ff;
-  color: #00e5ff;
-}
-
-.balance {
-  font-size: 32px;
-  font-weight: bold;
-  margin: 15px 0;
-}
-
+/* SCREENS */
 .screen {
   display: none;
 }
@@ -61,25 +60,109 @@ button.secondary {
   display: block;
 }
 
-/* ===== TRANSACTIONS ===== */
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 15px;
+  margin-bottom: 14px;
+}
 
-.transactions {
-  margin-top: 15px;
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* BUTTONS */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.secondary {
+  margin-top: 10px;
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+button.logout {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+/* HOME TOP */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+/* WALLET CARD */
+.wallet {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.wallet p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.wallet h2 {
+  margin: 6px 0 0;
+  font-size: 32px;
+}
+
+/* ACTIONS */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* TRANSACTIONS */
+.transactions h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
 }
 
 .transactions ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .tx {
-  background: rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 14px;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
   margin-bottom: 10px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border);
 }
 
 .tx-left {
@@ -89,8 +172,8 @@ button.secondary {
 }
 
 .tx-icon {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -99,30 +182,40 @@ button.secondary {
 }
 
 .tx.credit .tx-icon {
-  background: rgba(0, 255, 170, 0.2);
-  color: #00ffaa;
+  background: rgba(16,185,129,0.1);
+  color: var(--success);
 }
 
 .tx.debit .tx-icon {
-  background: rgba(255, 90, 90, 0.2);
-  color: #ff5a5a;
+  background: rgba(239,68,68,0.1);
+  color: var(--danger);
 }
 
 .tx-title {
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .tx-time {
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tx-amount {
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .tx-amount.credit {
-  color: #00ffaa;
-  font-weight: bold;
+  color: var(--success);
 }
 
 .tx-amount.debit {
-  color: #ff5a5a;
-  font-weight: bold;
+  color: var(--danger);
+}
+
+/* SEND / RECEIVE */
+h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
 }
