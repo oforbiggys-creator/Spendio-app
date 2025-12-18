@@ -1,150 +1,151 @@
-/* ===============================
-   SPENDIO – FULL APP LOGIC
-   =============================== */
+<script>
+  let balance = parseFloat(localStorage.getItem("balance")) || 0;
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  let storedPin = localStorage.getItem("pin");
+  let pendingAction = null;
 
-/* ---------- STATE ---------- */
-let userName = localStorage.getItem("spendio_name") || "";
-let balance = Number(localStorage.getItem("spendio_balance")) || 0;
-let transactions = JSON.parse(localStorage.getItem("spendio_tx")) || [];
+  function updateUI() {
+    document.getElementById("balance").innerText = "₦" + balance.toFixed(2);
+    const txDiv = document.getElementById("transactions");
+    txDiv.innerHTML = "";
 
-/* ---------- ELEMENTS ---------- */
-const nameInput = document.getElementById("nameInput");
-const userDisplay = document.getElementById("userDisplay");
-const balanceDisplay = document.getElementById("balance");
-const transactionList = document.getElementById("transactions");
-
-/* ---------- INIT ---------- */
-window.onload = () => {
-  if (userName) {
-    nameInput.value = userName;
-    userDisplay.textContent = userName;
-  }
-
-  showScreen("home");
-  updateUI();
-};
-
-/* ---------- STORAGE ---------- */
-function save() {
-  localStorage.setItem("spendio_name", userName);
-  localStorage.setItem("spendio_balance", balance);
-  localStorage.setItem("spendio_tx", JSON.stringify(transactions));
-}
-
-/* ---------- SCREENS ---------- */
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-}
-
-function goBack() {
-  showScreen("home");
-}
-
-/* ---------- AUTH ---------- */
-function continueApp() {
-  const name = nameInput.value.trim();
-  if (!name) return alert("Please enter your name");
-
-  userName = name;
-  userDisplay.textContent = name;
-
-  save();
-  showScreen("home");
-}
-
-function logout() {
-  localStorage.clear();
-  location.reload();
-}
-
-/* ---------- WALLET ---------- */
-function sendMoney() {
-  const amount = Number(document.getElementById("sendAmount").value);
-  const recipient = document.getElementById("recipient").value.trim();
-
-  if (!amount || amount <= 0) return alert("Invalid amount");
-  if (!recipient) return alert("Enter recipient name");
-  if (amount > balance) return alert("Insufficient balance");
-
-  balance -= amount;
-
-  transactions.unshift({
-    type: "debit",
-    title: `Sent to ${recipient}`,
-    amount,
-    time: new Date().toLocaleString()
-  });
-
-  save();
-  updateUI();
-  clearInputs();
-  goBack();
-}
-
-function receiveMoney() {
-  const amount = Number(document.getElementById("receiveAmount").value);
-
-  if (!amount || amount <= 0) return alert("Invalid amount");
-
-  balance += amount;
-
-  transactions.unshift({
-    type: "credit",
-    title: "Wallet funding",
-    amount,
-    time: new Date().toLocaleString()
-  });
-
-  save();
-  updateUI();
-  clearInputs();
-  goBack();
-}
-
-/* ---------- UI ---------- */
-function updateUI() {
-  balanceDisplay.textContent = balance.toFixed(2);
-
-  transactionList.innerHTML = "";
-
-  if (transactions.length === 0) {
-    transactionList.innerHTML = "<li>No transactions yet</li>";
-    return;
-  }
-
-  transactions.forEach(tx => {
-    const isCredit = tx.type === "credit";
-
-    const li = document.createElement("li");
-    li.className = `tx ${isCredit ? "credit" : "debit"}`;
-
-    li.innerHTML = `
-      <div class="tx-left">
-        <div class="tx-icon">
-          ${isCredit ? "⬇" : "⬆"}
-        </div>
-        <div>
-          <div class="tx-title">${tx.title}</div>
-          <div class="tx-time">${tx.time}</div>
-        </div>
-      </div>
-      <div class="tx-amount ${isCredit ? "credit" : "debit"}">
-        ${isCredit ? "+" : "-"}₦${tx.amount}
-      </div>
-    `;
-
-    transactionList.appendChild(li);
-  });
-}
-
-/* ---------- HELPERS ---------- */
-function clearInputs() {
-  ["sendAmount", "recipient", "receiveAmount"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = "";
-  });
+    if (transactions.length === 0) {
+      txDiv.innerHTML = "<p>No transactions yet</p>";
+      return;
     }
+
+    transactions.slice().reverse().forEach(tx => {
+      const div = document.createElement("div");
+      div.className = "transaction";
+      div.innerHTML = `
+        <strong>${tx.type} ₦${tx.amount}</strong><br>
+        <small>${tx.note}</small>
+      `;
+      txDiv.appendChild(div);
+    });
+  }
+
+  function openSend() {
+    requestPin(() => {
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("sendScreen").classList.remove("hidden");
+    });
+  }
+
+  function receiveMoney() {
+    requestPin(() => {
+      const amount = prompt("Enter amount to receive");
+      if (!amount || amount <= 0) return;
+
+      balance += parseFloat(amount);
+
+      transactions.push({
+        type: "Received",
+        amount,
+        note: "Wallet funding"
+      });
+
+      saveData();
+      updateUI();
+    });
+  }
+
+  function requestPin(action) {
+    pendingAction = action;
+    document.getElementById("pinInput").value = "";
+    document.getElementById("pinMessage").innerText = "";
+    document.getElementById("pinTitle").innerText =
+      storedPin ? "Enter PIN" : "Create PIN";
+    document.getElementById("pinModal").classList.remove("hidden");
+  }
+
+  function confirmPin() {
+    const pin = document.getElementById("pinInput").value;
+    const msg = document.getElementById("pinMessage");
+
+    if (!/^\d{4}$/.test(pin)) {
+      msg.innerText = "PIN must be 4 digits";
+      msg.className = "error";
+      return;
+    }
+
+    if (!storedPin) {
+      localStorage.setItem("pin", pin);
+      storedPin = pin;
+      closePin(true);
+      return;
+    }
+
+    if (pin !== storedPin) {
+      msg.innerText = "Incorrect PIN";
+      msg.className = "error";
+      return;
+    }
+
+    closePin(true);
+  }
+
+  function closePin(success) {
+    document.getElementById("pinModal").classList.add("hidden");
+    if (success && pendingAction) pendingAction();
+    pendingAction = null;
+  }
+
+  function goBack() {
+    document.getElementById("sendScreen").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+  }
+
+  function sendMoney() {
+    const amount = parseFloat(document.getElementById("sendAmount").value);
+    const recipient = document.getElementById("recipient").value;
+    const msg = document.getElementById("sendMessage");
+
+    msg.innerText = "";
+
+    if (!amount || amount <= 0 || !recipient) {
+      msg.innerText = "Invalid input";
+      msg.className = "error";
+      return;
+    }
+
+    if (amount > balance) {
+      msg.innerText = "Insufficient balance";
+      msg.className = "error";
+      return;
+    }
+
+    balance -= amount;
+
+    transactions.push({
+      type: "Sent",
+      amount,
+      note: "To " + recipient
+    });
+
+    saveData();
+    updateUI();
+
+    msg.innerText = "Transfer successful";
+    msg.className = "success";
+
+    document.getElementById("sendAmount").value = "";
+    document.getElementById("recipient").value = "";
+  }
+
+  function saveData() {
+    localStorage.setItem("balance", balance);
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }
+
+  function resetWallet() {
+    if (!confirm("Logout and reset wallet?")) return;
+    localStorage.clear();
+    balance = 0;
+    transactions = [];
+    storedPin = null;
+    updateUI();
+  }
+
+  updateUI();
+</script>
