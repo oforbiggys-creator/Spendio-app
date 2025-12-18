@@ -2,89 +2,115 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  background: #f5f7fa;
-  color: #333;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
 }
 
 #app {
-  max-width: 420px;
-  margin: auto;
-  background: #fff;
-  min-height: 100vh;
-}
-
-header {
-  background: #0a66ff;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
-nav {
-  display: flex;
-  justify-content: space-around;
-  border-bottom: 1px solid #ddd;
-}
-
-nav button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-nav button:hover {
-  background: #f0f0f0;
+  width: 100%;
+  max-width: 380px;
+  background: #111;
+  border-radius: 16px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
 .screen {
   display: none;
-  padding: 20px;
+  animation: fade 0.4s ease-in-out;
 }
 
 .screen.active {
   display: block;
 }
 
-.card {
-  background: #f9f9f9;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
+.logo {
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  color: #00e0ff;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+.tagline {
+  text-align: center;
+  margin: 15px 0 30px;
+  font-size: 14px;
+  color: #bbb;
 }
 
-form label {
-  margin-top: 10px;
+.home-actions button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  background: #00e0ff;
+  color: #000;
+  font-weight: 600;
 }
 
-form input, form select {
-  padding: 10px;
-  margin-top: 5px;
+.home-actions .outline {
+  background: transparent;
+  border: 2px solid #00e0ff;
+  color: #00e0ff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 15px;
 }
 
 form button {
-  margin-top: 15px;
-  padding: 12px;
-  background: #0a66ff;
-  color: white;
+  width: 100%;
+  padding: 14px;
+  background: #00e0ff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.info {
-  margin-top: 10px;
-  font-size: 0.9em;
-  color: gray;
+.switch {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.switch span {
+  color: #00e0ff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
