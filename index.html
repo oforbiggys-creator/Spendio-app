@@ -3,80 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spendio</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Spendio – Smart Finance for Africa</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
   <!-- App Container -->
   <div id="app">
 
-    <!-- Header -->
-    <header>
-      <h1>Spendio</h1>
-      <p>Smart payments & micro-loans for Africa</p>
-    </header>
+    <!-- HOME SCREEN -->
+    <section id="home" class="screen active">
+      <h1 class="logo">Spendio</h1>
+      <p class="tagline">Smart payments, loans & financial access for Africa</p>
 
-    <!-- Navigation -->
-    <nav>
-      <button onclick="showScreen('dashboard')">Dashboard</button>
-      <button onclick="showScreen('loan')">Loans</button>
-      <button onclick="showScreen('wallet')">Wallet</button>
-      <button onclick="showScreen('profile')">Profile</button>
-    </nav>
-
-    <!-- Screens -->
-
-    <!-- Dashboard -->
-    <section id="dashboard" class="screen active">
-      <h2>Dashboard</h2>
-      <div class="card">
-        <p><strong>Wallet Balance</strong></p>
-        <h3>₦0.00</h3>
-      </div>
-      <div class="card">
-        <p><strong>Active Loan</strong></p>
-        <h3>None</h3>
+      <div class="home-actions">
+        <button onclick="showScreen('login')">Login</button>
+        <button class="outline" onclick="showScreen('register')">Create Account</button>
       </div>
     </section>
 
-    <!-- Loan -->
-    <section id="loan" class="screen">
-      <h2>Apply for Loan</h2>
+    <!-- LOGIN SCREEN -->
+    <section id="login" class="screen">
+      <h2>Welcome Back</h2>
 
-      <form id="loanForm">
-        <label>Loan Amount (₦)</label>
-        <input type="number" required />
-
-        <label>Duration (months)</label>
-        <select>
-          <option>1</option>
-          <option>3</option>
-          <option>6</option>
-        </select>
-
-        <button type="submit">Apply</button>
+      <form onsubmit="loginUser(event)">
+        <input type="email" id="loginEmail" placeholder="Email address" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
       </form>
 
-      <p class="info">Loans are reviewed within 24 hours.</p>
+      <p class="switch">
+        New here?
+        <span onclick="showScreen('register')">Create account</span>
+      </p>
     </section>
 
-    <!-- Wallet -->
-    <section id="wallet" class="screen">
-      <h2>Wallet</h2>
-      <div class="card">
-        <p>No transactions yet.</p>
-      </div>
-    </section>
+    <!-- REGISTER SCREEN -->
+    <section id="register" class="screen">
+      <h2>Create Your Spendio Account</h2>
 
-    <!-- Profile -->
-    <section id="profile" class="screen">
-      <h2>Profile</h2>
-      <div class="card">
-        <p><strong>Name:</strong> User</p>
-        <p><strong>Status:</strong> Unverified</p>
-        <button>Verify Account</button>
-      </div>
+      <form onsubmit="registerUser(event)">
+        <input type="text" id="regName" placeholder="Full name" required />
+        <input type="email" id="regEmail" placeholder="Email address" required />
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <button type="submit">Create Account</button>
+      </form>
+
+      <p class="switch">
+        Already have an account?
+        <span onclick="showScreen('login')">Login</span>
+      </p>
     </section>
 
   </div>
