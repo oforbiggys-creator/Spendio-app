@@ -19,13 +19,12 @@ body {
   max-width: 380px;
   background: #111;
   border-radius: 16px;
-  padding: 30px 20px;
+  padding: 25px 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
 .screen {
   display: none;
-  animation: fade 0.4s ease-in-out;
 }
 
 .screen.active {
@@ -46,39 +45,14 @@ body {
   color: #bbb;
 }
 
-.home-actions button {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  background: #00e0ff;
-  color: #000;
-  font-weight: 600;
-}
-
-.home-actions .outline {
-  background: transparent;
-  border: 2px solid #00e0ff;
-  color: #00e0ff;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 form input {
   width: 100%;
   padding: 14px;
-  margin-bottom: 14px;
   border-radius: 10px;
   border: none;
+  margin-bottom: 14px;
   background: #222;
   color: #fff;
-  font-size: 15px;
 }
 
 form button {
@@ -89,28 +63,54 @@ form button {
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.logout {
+  background: transparent;
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+  padding: 6px 10px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.switch {
+.wallet {
+  background: linear-gradient(135deg, #00e0ff, #0099cc);
+  padding: 25px;
+  border-radius: 16px;
+  color: #000;
   text-align: center;
-  margin-top: 18px;
+  margin-bottom: 25px;
+}
+
+.wallet p {
   font-size: 14px;
 }
 
-.switch span {
-  color: #00e0ff;
-  cursor: pointer;
-  font-weight: 600;
+.wallet h1 {
+  font-size: 36px;
+  margin-top: 10px;
 }
 
-@keyframes fade {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.actions button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.actions .outline {
+  background: transparent;
+  border: 2px solid #00e0ff;
+  color: #00e0ff;
 }
