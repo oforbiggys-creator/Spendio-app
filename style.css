@@ -1,71 +1,62 @@
-}
-
-.section-title {
-  margin: 20px 0 10px;
- * {
+* {
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  background: linear-gradient(160deg, #001f2b, #003847);
   color: #fff;
+  min-height: 100vh;
 }
 
-.card {
-  background: #111;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 15px;
-}
-
-.hidden {
+.screen {
   display: none;
+  padding: 24px;
+  max-width: 420px;
+  margin: auto;
 }
 
-.brand {
+.screen.active {
+  display: block;
+}
+
+.logo {
+  font-size: 40px;
   color: #00e5ff;
   text-align: center;
 }
 
 .tagline {
   text-align: center;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 input {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
+  font-size: 16px;
 }
 
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin-top: 10px;
   border-radius: 10px;
   border: none;
   background: #00e5ff;
+  color: #000;
+  font-size: 16px;
   font-weight: bold;
 }
 
 button.outline {
   background: transparent;
-  border: 1px solid #00e5ff;
   color: #00e5ff;
-}
-
-.logout {
-  background: transparent;
-  border: 1px solid red;
-  color: red;
+  border: 2px solid #00e5ff;
 }
 
 .top {
@@ -74,13 +65,21 @@ button.outline {
   align-items: center;
 }
 
-.balance {
+.logout {
+  background: transparent;
+  border: 1px solid red;
+  color: red;
+  width: auto;
+  padding: 8px 14px;
+}
+
+.balance-card {
   background: #00e5ff;
   color: #000;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 20px;
+  border-radius: 14px;
+  margin: 20px 0;
   text-align: center;
-  margin: 15px 0;
 }
 
 ul {
@@ -89,8 +88,8 @@ ul {
 }
 
 li {
-  background: #222;
+  background: #002f3b;
   padding: 10px;
-  margin-top: 5px;
   border-radius: 8px;
+  margin-top: 8px;
 }
