@@ -1,35 +1,26 @@
-function showScreen(screenId) {
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
-  document.getElementById(screenId).classList.add('active');
-}
-
-// Mock Register
-function registerUser(e) {
+function login(e) {
   e.preventDefault();
 
-  const name = document.getElementById('regName').value;
-  const email = document.getElementById('regEmail').value;
+  const name = document.getElementById('name').value;
+  localStorage.setItem('spendioUser', name);
 
-  localStorage.setItem('spendioUser', JSON.stringify({ name, email }));
-
-  alert('Account created successfully!');
-  showScreen('login');
+  document.getElementById('welcome').innerText = `Hello, ${name}`;
+  show('dashboard');
 }
 
-// Mock Login
-function loginUser(e) {
-  e.preventDefault();
+function logout() {
+  localStorage.removeItem('spendioUser');
+  show('auth');
+}
 
-  const storedUser = localStorage.getItem('spendioUser');
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-  if (!storedUser) {
-    alert('No account found. Please register.');
-    showScreen('register');
-    return;
-  }
-
-  alert('Login successful!');
-  // Next screen will be dashboard
+// Auto login if user exists
+const user = localStorage.getItem('spendioUser');
+if (user) {
+  document.getElementById('welcome').innerText = `Hello, ${user}`;
+  show('dashboard');
 }
