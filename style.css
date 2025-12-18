@@ -7,7 +7,7 @@
 
 body {
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,11 +16,10 @@ body {
 
 #app {
   width: 100%;
-  max-width: 380px;
+  max-width: 390px;
   background: #111;
-  border-radius: 16px;
-  padding: 25px 20px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border-radius: 18px;
+  padding: 22px;
 }
 
 .screen {
@@ -32,44 +31,56 @@ body {
 }
 
 .logo {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 34px;
+  font-weight: 900;
   text-align: center;
   color: #00e0ff;
 }
 
 .tagline {
   text-align: center;
-  margin: 15px 0 30px;
-  font-size: 14px;
-  color: #bbb;
+  margin: 12px 0 28px;
+  color: #aaa;
 }
 
-form input {
+input {
   width: 100%;
   padding: 14px;
+  margin-bottom: 14px;
   border-radius: 10px;
   border: none;
-  margin-bottom: 14px;
   background: #222;
   color: #fff;
 }
 
-form button {
+button {
   width: 100%;
   padding: 14px;
-  background: #00e0ff;
-  border: none;
   border-radius: 10px;
+  border: none;
   font-size: 16px;
   font-weight: bold;
+  background: #00e0ff;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button.outline {
+  background: transparent;
+  border: 2px solid #00e0ff;
+  color: #00e0ff;
+}
+
+button.back {
+  background: transparent;
+  border: 1px solid #555;
+  color: #aaa;
 }
 
 .dash-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
 }
 
 .logout {
@@ -77,40 +88,40 @@ form button {
   border: 1px solid #ff4d4d;
   color: #ff4d4d;
   padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
 .wallet {
   background: linear-gradient(135deg, #00e0ff, #0099cc);
-  padding: 25px;
-  border-radius: 16px;
   color: #000;
+  border-radius: 18px;
+  padding: 24px;
   text-align: center;
-  margin-bottom: 25px;
-}
-
-.wallet p {
-  font-size: 14px;
+  margin: 20px 0;
 }
 
 .wallet h1 {
   font-size: 36px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .actions button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
   margin-bottom: 12px;
-  font-size: 16px;
-  cursor: pointer;
 }
 
-.actions .outline {
-  background: transparent;
-  border: 2px solid #00e0ff;
-  color: #00e0ff;
+.section-title {
+  margin: 20px 0 10px;
+  font-size: 16px;
+  color: #aaa;
+}
+
+#transactions {
+  list-style: none;
+}
+
+#transactions li {
+  background: #1c1c1c;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
