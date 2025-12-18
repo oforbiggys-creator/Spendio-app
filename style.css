@@ -1,8 +1,10 @@
-* {
-  margin: 0;
-  padding: 0;
+}
+
+.section-title {
+  margin: 20px 0 10px;
+ * {
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 body {
@@ -14,114 +16,81 @@ body {
   color: #fff;
 }
 
-#app {
-  width: 100%;
-  max-width: 390px;
+.card {
   background: #111;
-  border-radius: 18px;
-  padding: 22px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 15px;
 }
 
-.screen {
+.hidden {
   display: none;
 }
 
-.screen.active {
-  display: block;
-}
-
-.logo {
-  font-size: 34px;
-  font-weight: 900;
+.brand {
+  color: #00e5ff;
   text-align: center;
-  color: #00e0ff;
 }
 
 .tagline {
   text-align: center;
-  margin: 12px 0 28px;
-  color: #aaa;
+  opacity: 0.7;
 }
 
 input {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 14px;
+  padding: 12px;
+  margin: 10px 0;
   border-radius: 10px;
   border: none;
-  background: #222;
-  color: #fff;
 }
 
 button {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
+  margin-top: 10px;
   border-radius: 10px;
   border: none;
-  font-size: 16px;
+  background: #00e5ff;
   font-weight: bold;
-  background: #00e0ff;
-  cursor: pointer;
-  margin-bottom: 10px;
 }
 
 button.outline {
   background: transparent;
-  border: 2px solid #00e0ff;
-  color: #00e0ff;
+  border: 1px solid #00e5ff;
+  color: #00e5ff;
 }
 
-button.back {
+.logout {
   background: transparent;
-  border: 1px solid #555;
-  color: #aaa;
+  border: 1px solid red;
+  color: red;
 }
 
-.dash-header {
+.top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logout {
-  background: transparent;
-  border: 1px solid #ff4d4d;
-  color: #ff4d4d;
-  padding: 6px 10px;
-}
-
-.wallet {
-  background: linear-gradient(135deg, #00e0ff, #0099cc);
+.balance {
+  background: #00e5ff;
   color: #000;
-  border-radius: 18px;
-  padding: 24px;
+  padding: 15px;
+  border-radius: 12px;
   text-align: center;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
-.wallet h1 {
-  font-size: 36px;
-  margin-top: 8px;
-}
-
-.actions button {
-  margin-bottom: 12px;
-}
-
-.section-title {
-  margin: 20px 0 10px;
-  font-size: 16px;
-  color: #aaa;
-}
-
-#transactions {
+ul {
   list-style: none;
+  padding: 0;
 }
 
-#transactions li {
-  background: #1c1c1c;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  font-size: 14px;
+li {
+  background: #222;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
 }
