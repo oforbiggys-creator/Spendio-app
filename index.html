@@ -6,7 +6,25 @@
   <title>Spendio</title>
 
   <style>
-    body {
+    body
+    <!-- PIN MODAL -->
+<div id="pinModal" class="hidden" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+">
+  <div class="card" style="width: 90%; max-width: 350px;">
+    <h3 id="pinTitle">Enter PIN</h3>
+    <input type="password" id="pinInput" placeholder="4-digit PIN" maxlength="4" />
+    <button class="primary" onclick="confirmPin()">Confirm</button>
+    <p id="pinMessage"></p>
+  </div>
+</div>
+    {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont;
       background: linear-gradient(180deg, #001f2d, #00364d);
