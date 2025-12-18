@@ -1,38 +1,59 @@
-// ---------- STATE ----------
-let balance = Number(localStorage.getItem("balance")) || 0;
-let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-let savedUser = localStorage.getItem("username");
+/* ===============================
+   SPENDIO – FULL APP LOGIC
+   =============================== */
 
-// ---------- SCREENS ----------
-const screens = {
-  login: document.getElementById("login"),
-  dashboard: document.getElementById("dashboard"),
-  send: document.getElementById("send"),
-  receive: document.getElementById("receive")
+/* ---------- STATE ---------- */
+let userName = localStorage.getItem("spendio_name") || "";
+let balance = Number(localStorage.getItem("spendio_balance")) || 0;
+let transactions = JSON.parse(localStorage.getItem("spendio_tx")) || [];
+
+/* ---------- ELEMENTS ---------- */
+const nameInput = document.getElementById("nameInput");
+const userDisplay = document.getElementById("userDisplay");
+const balanceDisplay = document.getElementById("balance");
+const transactionList = document.getElementById("transactions");
+
+/* ---------- INIT ---------- */
+window.onload = () => {
+  if (userName) {
+    nameInput.value = userName;
+    userDisplay.textContent = userName;
+  }
+
+  showScreen("home");
+  updateUI();
 };
 
-function show(screen) {
-  Object.values(screens).forEach(s => s.classList.remove("active"));
-  screens[screen].classList.add("active");
+/* ---------- STORAGE ---------- */
+function save() {
+  localStorage.setItem("spendio_name", userName);
+  localStorage.setItem("spendio_balance", balance);
+  localStorage.setItem("spendio_tx", JSON.stringify(transactions));
 }
 
-// ---------- INIT ----------
-if (savedUser) {
-  document.getElementById("username").textContent = savedUser;
-  show("dashboard");
-  updateUI();
-} else {
-  show("login");
+/* ---------- SCREENS ---------- */
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
 }
 
-// ---------- AUTH ----------
-function login() {
-  const name = document.getElementById("usernameInput").value.trim();
-  if (!name) return alert("Enter your name");
+function goBack() {
+  showScreen("home");
+}
 
-  localStorage.setItem("username", name);
-  document.getElementById("username").textContent = name;
-  show("dashboard");
+/* ---------- AUTH ---------- */
+function continueApp() {
+  const name = nameInput.value.trim();
+  if (!name) return alert("Please enter your name");
+
+  userName = name;
+  userDisplay.textContent = name;
+
+  save();
+  showScreen("home");
 }
 
 function logout() {
@@ -40,33 +61,27 @@ function logout() {
   location.reload();
 }
 
-// ---------- NAV ----------
-function showSend() {
-  show("send");
-}
-
-function showReceive() {
-  show("receive");
-}
-
-function goBack() {
-  show("dashboard");
-}
-
-// ---------- TRANSACTIONS ----------
+/* ---------- WALLET ---------- */
 function sendMoney() {
   const amount = Number(document.getElementById("sendAmount").value);
   const recipient = document.getElementById("recipient").value.trim();
 
   if (!amount || amount <= 0) return alert("Invalid amount");
-  if (amount > balance) return alert("Insufficient balance");
   if (!recipient) return alert("Enter recipient name");
+  if (amount > balance) return alert("Insufficient balance");
 
   balance -= amount;
-  transactions.unshift(`Sent ₦${amount} to ${recipient}`);
+
+  transactions.unshift({
+    type: "debit",
+    title: `Sent to ${recipient}`,
+    amount,
+    time: new Date().toLocaleString()
+  });
 
   save();
   updateUI();
+  clearInputs();
   goBack();
 }
 
@@ -76,34 +91,60 @@ function receiveMoney() {
   if (!amount || amount <= 0) return alert("Invalid amount");
 
   balance += amount;
-  transactions.unshift(`Received ₦${amount}`);
+
+  transactions.unshift({
+    type: "credit",
+    title: "Wallet funding",
+    amount,
+    time: new Date().toLocaleString()
+  });
 
   save();
   updateUI();
+  clearInputs();
   goBack();
 }
 
-// ---------- STORAGE ----------
-function save() {
-  localStorage.setItem("balance", balance);
-  localStorage.setItem("transactions", JSON.stringify(transactions));
-}
-
-// ---------- UI ----------
+/* ---------- UI ---------- */
 function updateUI() {
-  document.getElementById("balance").textContent = balance.toFixed(2);
+  balanceDisplay.textContent = balance.toFixed(2);
 
-  const list = document.getElementById("transactions");
-  list.innerHTML = "";
+  transactionList.innerHTML = "";
 
   if (transactions.length === 0) {
-    list.innerHTML = "<li>No transactions yet</li>";
+    transactionList.innerHTML = "<li>No transactions yet</li>";
     return;
   }
 
   transactions.forEach(tx => {
+    const isCredit = tx.type === "credit";
+
     const li = document.createElement("li");
-    li.textContent = tx;
-    list.appendChild(li);
+    li.className = `tx ${isCredit ? "credit" : "debit"}`;
+
+    li.innerHTML = `
+      <div class="tx-left">
+        <div class="tx-icon">
+          ${isCredit ? "⬇" : "⬆"}
+        </div>
+        <div>
+          <div class="tx-title">${tx.title}</div>
+          <div class="tx-time">${tx.time}</div>
+        </div>
+      </div>
+      <div class="tx-amount ${isCredit ? "credit" : "debit"}">
+        ${isCredit ? "+" : "-"}₦${tx.amount}
+      </div>
+    `;
+
+    transactionList.appendChild(li);
   });
 }
+
+/* ---------- HELPERS ---------- */
+function clearInputs() {
+  ["sendAmount", "recipient", "receiveAmount"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+    }
