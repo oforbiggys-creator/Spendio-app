@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spendio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+  <!-- App Container -->
+  <div id="app">
+
+    <!-- Header -->
+    <header>
+      <h1>Spendio</h1>
+      <p>Smart payments & micro-loans for Africa</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+      <button onclick="showScreen('dashboard')">Dashboard</button>
+      <button onclick="showScreen('loan')">Loans</button>
+      <button onclick="showScreen('wallet')">Wallet</button>
+      <button onclick="showScreen('profile')">Profile</button>
+    </nav>
+
+    <!-- Screens -->
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="screen active">
+      <h2>Dashboard</h2>
+      <div class="card">
+        <p><strong>Wallet Balance</strong></p>
+        <h3>₦0.00</h3>
+      </div>
+      <div class="card">
+        <p><strong>Active Loan</strong></p>
+        <h3>None</h3>
+      </div>
+    </section>
+
+    <!-- Loan -->
+    <section id="loan" class="screen">
+      <h2>Apply for Loan</h2>
+
+      <form id="loanForm">
+        <label>Loan Amount (₦)</label>
+        <input type="number" required />
+
+        <label>Duration (months)</label>
+        <select>
+          <option>1</option>
+          <option>3</option>
+          <option>6</option>
+        </select>
+
+        <button type="submit">Apply</button>
+      </form>
+
+      <p class="info">Loans are reviewed within 24 hours.</p>
+    </section>
+
+    <!-- Wallet -->
+    <section id="wallet" class="screen">
+      <h2>Wallet</h2>
+      <div class="card">
+        <p>No transactions yet.</p>
+      </div>
+    </section>
+
+    <!-- Profile -->
+    <section id="profile" class="screen">
+      <h2>Profile</h2>
+      <div class="card">
+        <p><strong>Name:</strong> User</p>
+        <p><strong>Status:</strong> Unverified</p>
+        <button>Verify Account</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
