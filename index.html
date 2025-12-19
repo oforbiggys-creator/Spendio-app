@@ -2,256 +2,194 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Spendio – Smart finance for Africa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spendio</title>
 
   <style>
-    body
-    <!-- PIN MODAL -->
-<div id="pinModal" class="hidden" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-">
-  <div class="card" style="width: 90%; max-width: 350px;">
-    <h3 id="pinTitle">Enter PIN</h3>
-    <input type="password" id="pinInput" placeholder="4-digit PIN" maxlength="4" />
-    <button class="primary" onclick="confirmPin()">Confirm</button>
-    <p id="pinMessage"></p>
-  </div>
-</div>
-    {
+    body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: linear-gradient(180deg, #001f2d, #00364d);
-      color: white;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f4f6f8;
+      color: #000;
     }
 
-    .container {
+    .app {
       max-width: 420px;
-      margin: auto;
+      margin: 20px auto;
       padding: 20px;
     }
 
     h1 {
-      margin-bottom: 5px;
+      margin-bottom: 0;
+      font-size: 36px;
     }
 
-    .tagline {
+    .subtitle {
       opacity: 0.7;
       margin-bottom: 20px;
     }
 
     .card {
-      background: #012c3d;
-      border-radius: 16px;
+      background: #062c3f;
+      color: #fff;
+      border-radius: 18px;
       padding: 20px;
-      margin-bottom: 15px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    .primary {
-      background: #00eaff;
-      color: #002b3b;
-      font-weight: bold;
-    }
-
-    .outline {
-      background: transparent;
-      border: 2px solid #00eaff;
-      color: #00eaff;
-    }
-
-    .danger {
-      background: #ff4d4d;
-      color: white;
+      margin-bottom: 20px;
     }
 
     .hidden {
       display: none;
     }
 
-    .transaction {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 10px 0;
-      font-size: 14px;
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
     }
 
-    .success {
-      color: #00ff9c;
+    .btn-primary {
+      background: #00e5ff;
+      color: #002b36;
+    }
+
+    .btn-danger {
+      background: #ff4d4d;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: none;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 6px;
+    }
+
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .transaction {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
     }
 
     .error {
-      color: #ff6b6b;
+      color: #ffb3b3;
+      font-size: 14px;
+      margin-top: 10px;
     }
   </style>
 </head>
-
 <body>
 
-<div class="container">
-
-  <!-- HEADER -->
+<div class="app">
   <h1>Spendio</h1>
-  <div class="tagline">Smart finance for Africa</div>
+  <div class="subtitle">Smart finance for Africa</div>
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="card">
-    <button class="danger" onclick="resetWallet()">Logout</button>
-
-    <h3>Wallet Balance</h3>
-    <h2 id="balance">₦0.00</h2>
-
-    <button class="primary" onclick="openSend()">Send Money</button>
-    <button class="primary" onclick="receiveMoney()">Receive Money</button>
+  <!-- CREATE PIN -->
+  <div id="createPin" class="card hidden">
+    <h2>Create 6-Digit PIN</h2>
+    <input id="pin1" type="password" maxlength="6" placeholder="Enter PIN" />
+    <input id="pin2" type="password" maxlength="6" placeholder="Confirm PIN" />
+    <button class="btn btn-primary" onclick="savePin()">Save PIN</button>
+    <div class="error" id="createError"></div>
   </div>
 
-  <!-- SEND MONEY -->
-  <div id="sendScreen" class="card hidden">
-    <h3>Send Money</h3>
-
-    <input type="number" id="sendAmount" placeholder="Amount (₦)">
-    <input type="text" id="recipient" placeholder="Recipient name">
-
-    <button class="primary" onclick="sendMoney()">Send</button>
-    <button class="outline" onclick="goBack()">Back</button>
-
-    <p id="sendMessage"></p>
+  <!-- UNLOCK -->
+  <div id="unlock" class="card hidden">
+    <h2>Enter PIN</h2>
+    <input id="unlockPin" type="password" maxlength="6" placeholder="••••••" />
+    <button class="btn btn-primary" onclick="unlock()">Unlock</button>
+    <div class="error" id="unlockError"></div>
   </div>
 
-  <!-- TRANSACTIONS -->
-  <div class="card">
-    <h3>Transactions</h3>
-    <div id="transactions"></div>
-  </div>
+  <!-- WALLET -->
+  <div id="wallet" class="hidden">
+    <div class="card">
+      <button class="btn btn-danger" onclick="logout()">Logout</button>
+      <h2>Wallet Balance</h2>
+      <div class="balance">₦4500.00</div>
+      <button class="btn btn-primary">Send Money</button>
+      <button class="btn btn-primary">Receive Money</button>
+    </div>
 
+    <div class="card">
+      <h2>Transactions</h2>
+      <div class="transaction">Sent ₦500<br><small>To Mine</small></div>
+      <div class="transaction">Received ₦5000<br><small>Wallet funding</small></div>
+    </div>
+  </div>
 </div>
 
 <script>
-  let balance = parseFloat(localStorage.getItem("balance")) || 0;
-  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  const PIN_KEY = 'spendio_pin_hash';
 
-  function updateUI() {
-    document.getElementById("balance").innerText = "₦" + balance.toFixed(2);
-    const txDiv = document.getElementById("transactions");
-    txDiv.innerHTML = "";
+  function show(section) {
+    ['createPin', 'unlock', 'wallet'].forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+    document.getElementById(section).classList.remove('hidden');
+  }
 
-    if (transactions.length === 0) {
-      txDiv.innerHTML = "<p>No transactions yet</p>";
+  async function hash(text) {
+    const data = new TextEncoder().encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  async function savePin() {
+    const p1 = pin1.value;
+    const p2 = pin2.value;
+
+    if (!/^\d{6}$/.test(p1)) {
+      createError.textContent = 'PIN must be exactly 6 digits';
       return;
     }
 
-    transactions.slice().reverse().forEach(tx => {
-      const div = document.createElement("div");
-      div.className = "transaction";
-      div.innerHTML = `
-        <strong>${tx.type}</strong> ₦${tx.amount}<br>
-        <small>${tx.note}</small>
-      `;
-      txDiv.appendChild(div);
-    });
-  }
-
-  function openSend() {
-    document.getElementById("dashboard").classList.add("hidden");
-    document.getElementById("sendScreen").classList.remove("hidden");
-  }
-
-  function goBack() {
-    document.getElementById("sendScreen").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-  }
-
-  function sendMoney() {
-    const amount = parseFloat(document.getElementById("sendAmount").value);
-    const recipient = document.getElementById("recipient").value;
-    const msg = document.getElementById("sendMessage");
-
-    msg.innerText = "";
-
-    if (!amount || amount <= 0 || !recipient) {
-      msg.innerText = "Invalid input";
-      msg.className = "error";
+    if (p1 !== p2) {
+      createError.textContent = 'PINs do not match';
       return;
     }
 
-    if (amount > balance) {
-      msg.innerText = "Insufficient balance";
-      msg.className = "error";
+    localStorage.setItem(PIN_KEY, await hash(p1));
+    show('wallet');
+  }
+
+  async function unlock() {
+    const stored = localStorage.getItem(PIN_KEY);
+    const entered = await hash(unlockPin.value);
+
+    if (entered !== stored) {
+      unlockError.textContent = 'Incorrect PIN';
       return;
     }
 
-    balance -= amount;
-
-    transactions.push({
-      type: "Sent",
-      amount,
-      note: "To " + recipient
-    });
-
-    saveData();
-    updateUI();
-
-    msg.innerText = "Transfer successful";
-    msg.className = "success";
-
-    document.getElementById("sendAmount").value = "";
-    document.getElementById("recipient").value = "";
+    show('wallet');
   }
 
-  function receiveMoney() {
-    const amount = prompt("Enter amount to receive");
-
-    if (!amount || amount <= 0) return;
-
-    balance += parseFloat(amount);
-
-    transactions.push({
-      type: "Received",
-      amount,
-      note: "Wallet funding"
-    });
-
-    saveData();
-    updateUI();
+  function logout() {
+    show('unlock');
   }
 
-  function saveData() {
-    localStorage.setItem("balance", balance);
-    localStorage.setItem("transactions", JSON.stringify(transactions));
+  // INIT
+  if (!localStorage.getItem(PIN_KEY)) {
+    show('createPin');
+  } else {
+    show('unlock');
   }
-
-  function resetWallet() {
-    if (!confirm("Logout and reset wallet?")) return;
-    localStorage.clear();
-    balance = 0;
-    transactions = [];
-    updateUI();
-  }
-
-  updateUI();
 </script>
 
 </body>
